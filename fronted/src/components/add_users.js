@@ -46,6 +46,7 @@ const AddUser = () => {
         const res = await fetch(baseurl, regInf);
         const result = await res.json()
         console.log("result", result)
+        localStorage.setItem("user", JSON.stringify(result))
         if (result.status === 400 || !result) {
             toast.info('Invalid user details', { autoClose: 1500 })
         }

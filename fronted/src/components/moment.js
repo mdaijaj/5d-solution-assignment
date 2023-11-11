@@ -2,8 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import { useDropzone } from 'react-dropzone';
-import { } from './document.css';
+import  './document.css';
 
 const Mmoments = () => {
   const [userdata, setUserdata] = useState();
@@ -81,7 +80,7 @@ const Mmoments = () => {
     const {
       title,
       comments,
-      tag
+      tags
     } = userdata;
 
     let baseurl = "http://localhost:5000/api/createMoments"
@@ -94,7 +93,7 @@ const Mmoments = () => {
         title,
         file: handleFiles,
         comments,
-        tag
+        tags
       })
     }
     const res = await fetch(baseurl, regInf);
@@ -164,16 +163,14 @@ const Mmoments = () => {
             <div>
               <p>Drag and drop your file here</p>
               <h4>Or</h4>
-              <button type="file" className="btn btn-info" onClick={onButtonClick}>Upload a file</button>
+              <button type="file" onChange={handleChange} className="btn btn-info" onClick={onButtonClick}>Upload a file</button>
             </div>
           </label>
 
           <p ref={statusRef}></p>
           <p ref={loadTotalRef}></p>
-          {/* <img src={file} alt="" style={{ width: "300px", height: "100px" }} /> */}
 
           {dragActive && <div id="drag-file-element" onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}></div>}
-
         </form>
         <div className="mb-2 row">
           <div className="col-mdm-2">

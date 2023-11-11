@@ -5,7 +5,7 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AchievementPage = () => {
+const UserDetails = () => {
     const [achievementList, setAchievementList] = useState([])
     const [open, setOpen] = useState(false);
     const [achievedetail, setAchievedetail] = useState('');
@@ -176,4 +176,4 @@ const AchievementPage = () => {
     )
 }
 
-export default AchievementPage;
+export default UserDetails;

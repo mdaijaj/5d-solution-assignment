@@ -1,61 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { ProgressBar } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import './App.css'
 
 const FileUpload = () => {
-  const [files, setFiles] = useState([]);
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const onDrop = (acceptedFiles) => {
-    setFiles(acceptedFiles);
-  };
 
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    setUploadedFile(file);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+
+    axios.post('/api/upload', formData, {
+      onUploadProgress: (progressEvent) => {
+        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        setUploadProgress(progress);
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        // Handle successful upload
+      })
+      .catch((error) => {
+        console.error('Error uploading file:', error);
+        // Handle upload error
+      });
+  }, []);
+
+  
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/*', // Specify the accepted file types
+    accept: 'image/*', // specify accepted file types
+    multiple: false, // allow only one file to be uploaded
   });
-
-  const handleUpload = async () => {
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append('files', file);
-    });
-
-    try {
-      const response = await fetch('/api/createMoments', {
-        method: 'POST',
-        body: formData,
-        onUploadProgress: (progressEvent) => {
-          const progress = (progressEvent.loaded / progressEvent.total) * 100;
-          setUploadProgress(progress);
-        },
-      });
-
-      console.log('Upload successful', response);
-    } catch (error) {
-      console.error('Error uploading files', error);
-    }
-  };
 
   return (
     <div>
-      <div {...getRootProps()} style={dropzoneStyles}>
+      <div {...getRootProps()} className="dropzone">
         <input {...getInputProps()} />
-        <p>Drag and drop some files here, or click to select files</p>
+        <p>Drag & drop an image file here, or click to select one</p>
       </div>
-      <button onClick={handleUpload}>Upload</button>
-      {uploadProgress > 0 && <ProgressBar now={uploadProgress} label={`${uploadProgress.toFixed(2)}%`} />}
+      {uploadedFile && (
+        <div>
+          <p>File: {uploadedFile.name}</p>
+          <p>Progress: {uploadProgress}%</p>
+          <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
+        </div>
+      )}
     </div>
   );
-};
-
-const dropzoneStyles = {
-  border: '2px dashed #cccccc',
-  borderRadius: '4px',
-  padding: '20px',
-  textAlign: 'center',
-  cursor: 'pointer',
 };
 
 export default FileUpload;

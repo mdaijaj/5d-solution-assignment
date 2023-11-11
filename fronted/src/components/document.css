@@ -50,3 +50,43 @@
   .upload-button:hover {
     text-decoration-line: underline;
   }
+
+
+  /* App.css */
+.file-upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropzone.active {
+  border-color: #2196f3;
+}
+
+.progress-bar {
+  margin-top: 20px;
+  width: 100%;
+  height: 20px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.upload-progress {
+  height: 100%;
+  width: 0;
+  background-color: #4caf50;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 20px;
+  color: white;
+}

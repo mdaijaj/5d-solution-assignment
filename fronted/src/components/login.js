@@ -37,6 +37,8 @@ const Login = () => {
         const res = await fetch("/api/signin", regInf);
         const result = await res.json()
         console.log("result", result)
+        localStorage.setItem("user", JSON.stringify(result.userInfo))
+
         if (result.status === 200 && result) {
             toast.success('new candidate add is successfully', { autoClose: 1500 })
             navigate('/user_list')

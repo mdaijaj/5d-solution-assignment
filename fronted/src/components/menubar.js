@@ -9,16 +9,16 @@ import axios from 'axios';
 import Login from './login';
 import Moments from './moment';
 import FileUploadWithProgress from './test'
-import Userlist from './userdata'
+import MomentsList from './momentlist'
 
 const Routing=()=>{
-  const [userdata, setUserdata]=useState([])
+  const [momentdata, setMomentdata]=useState([])
 
 
   const allUserList = async () => {
-    const response = await axios.get('/api/getuserList');
+    const response = await axios.get('/api/getmomentsList');
     let filterData = await response.data.data
-    setUserdata(filterData)
+    setMomentdata(filterData)
   }
 
   
@@ -33,7 +33,7 @@ const Routing=()=>{
           <Route exact path="/" element={<HomePage/>} />  
           <Route path="/user_list" element={<TableData/>} />  
           <Route path="/error" element={<Errorpage/>} />
-          <Route path="/moments_list" element={<Userlist data={userdata}/>} />
+          <Route path="/moments_list" element={<MomentsList data={momentdata}/>} />
           <Route path="/signup" element={<AddUser/>} />
           <Route path="/signin" element={<Login/>} />
           <Route path="/moments" element={<Moments/>} />

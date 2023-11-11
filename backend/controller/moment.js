@@ -5,7 +5,7 @@ exports.createMoments = async (req, res) => {
   const {
     title,
     comments,
-    tag,
+    tags,
   } = req.body;
   if (req.file) {
     var document = req.file.path
@@ -18,7 +18,7 @@ exports.createMoments = async (req, res) => {
       title,
       file: baseUrl+document,
       comments,
-      tag,
+      tags,
     })
     return res.status(200).send({
       message: "create successfully!", data: UserdetailData

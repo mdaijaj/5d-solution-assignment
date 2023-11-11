@@ -5,10 +5,10 @@ var moments_schema = new Schema({
     title: {
         type: String,
         maxlength: [30, "title cannot exceed 30 charactor"],
-        min: [4, "title should be more than 4 charactor"]
+        min: [4, "title should be more than 4 charactor"],
     },
-    files: {
-        type: [String],
+    file: {
+        type: String,
     },
     comments: {
         type: String,

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import "../App.css"
-import Logo from '../../src/images/company.png'
 
 
 const Navbar = (props) => {
@@ -48,7 +47,8 @@ const Navbar = (props) => {
                             :
                             <>
                                 <button onClick={handleLogout} className='btn btn-dark'>Logout</button>
-                                <h4 style={{ padding: "40px" }}>{JSON.parse(localStorage.getItem('user')).data.first_name}</h4>
+                                <h4 style={{ padding: "40px" }}>{JSON.parse(localStorage.getItem('user')).first_name}</h4>
+                                <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv4qV8A3FNxEQwtXcSJ4laIf9JsNt0A1dcMMqBCe4J8pbIB0Tn_Kzo5oeUxfD_aQjJHVY&usqp=CAU' style={{width: "80px", height: "80px", borderRadius: "50%"}}></img>
                             </>
                         }
                     </div>

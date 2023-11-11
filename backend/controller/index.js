@@ -1,7 +1,4 @@
 const UserDetail = require('../models/add_user')
-const axios = require('axios');
-const token = 'ab4086ecd47c568d5ba5739d4078988f'; // Replace with your actual token
-const apiUrl = 'https://dev.pixelsoftwares.com/api.php'; // Replace with the API URL
 const Bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 
