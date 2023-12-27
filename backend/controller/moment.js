@@ -13,6 +13,8 @@ exports.createMoments = async (req, res) => {
     var document = ""
 }
 
+console.log("req.file", req.files)
+
   try {
     const UserdetailData = await Momentmodel.create({
       title,

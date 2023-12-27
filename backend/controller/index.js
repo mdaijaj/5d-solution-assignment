@@ -15,7 +15,7 @@ exports.createUserDetails = async (req, res) => {
 
   try {
     const UserdetailData = await UserDetail.create({
-      first_name,
+    first_name,
     last_name,
     email,
     mobile,

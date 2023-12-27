@@ -3,55 +3,73 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import './App.css'
 
-const FileUpload = () => {
+const FileUpload = async() => {
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState({started: false, pc:0});
+  const [userdata, setUserdata]= useState(null);
+  const [msg, setMsg]= useState(null);
 
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    setUploadedFile(file);
+
+  const handleUpload= async()=>{
+    if(!uploadedFile){
+      console.log("not selected uploadedFile")
+      return;
+    }
+  }
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', uploadedFile);
 
+    // const {
+    //   title,
+    //   comments,
+    //   tags
+    // } = userdata;
 
-    axios.post('/api/upload', formData, {
-      onUploadProgress: (progressEvent) => {
-        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-        setUploadProgress(progress);
-      },
+    setMsg("document uploading....")
+    setUploadProgress(prevState=>{
+      return {...prevState, started: true}
     })
-      .then((response) => {
-        console.log(response.data);
-        // Handle successful upload
-      })
-      .catch((error) => {
-        console.error('Error uploading file:', error);
-        // Handle upload error
-      });
-  }, []);
 
-  
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: 'image/*', // specify accepted file types
-    multiple: false, // allow only one file to be uploaded
-  });
+    // const regInf = {
+    //     title,
+    //     file: formData,
+    //     comments,
+    //     tags
+    //   }
+      const result=await axios.post("/api/createMoments", formData, {
+        onUploadProgress: (progressEvent)=> {setUploadProgress(prevState=>  {
+          return {...prevState, pc: progressEvent.progress *100}})},
+        headers: {
+          "Customer-Header": "value", 
+        }
+      })
+
+    // const res = await fetch("/api/createMoments", regInf);
+    // const result = await res.json()
+    console.log("result", result)
+    setMsg("document uploaded Successfully....")
+
 
   return (
     <div>
-      <div {...getRootProps()} className="dropzone">
-        <input {...getInputProps()} />
+      <div  className="app">
+        <input type='file' onChange={(e)=>{setUploadedFile(e.target.files[0])}}/>
         <p>Drag & drop an image file here, or click to select one</p>
       </div>
-      {uploadedFile && (
+      <button onClick={handleUpload}>Upload</button>
+
+      {uploadProgress.started && < progress max="100" value={uploadProgress.pc}></progress>}
+      {msg && <span>{msg}</span>}
+
+      {/* {uploadedFile && (
         <div>
           <p>File: {uploadedFile.name}</p>
           <p>Progress: {uploadProgress}%</p>
           <div className="progress-bar" style={{ width: `${uploadProgress}%` }}></div>
         </div>
-      )}
+      )}  */}
     </div>
   );
 };

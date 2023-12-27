@@ -5,8 +5,8 @@ import "../App.css"
 
 const Navbar = (props) => {
     const navigate = useNavigate()
-    const cardata = localStorage.getItem("itemscart")
-    console.log("cardata", cardata)
+    // const cardata = localStorage.getItem("itemscart")
+    // console.log("cardata", cardata)
 
 
     const handleLogout = () => {
