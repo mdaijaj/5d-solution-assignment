@@ -13,7 +13,7 @@ const UserDetails = () => {
 
     //pagination functionality
     const [currentPage, setCurrentPage] = useState(1);
-    const recordPerPage = 5;
+    const recordPerPage = 3;
     const lastIndex = currentPage * recordPerPage;
     const firstIndex = lastIndex - recordPerPage;
     const records = achievementList.slice(firstIndex, lastIndex);
@@ -22,7 +22,6 @@ const UserDetails = () => {
 
 
 
-    const [query, setQuery] = useState("");
     const [results, setResults] = useState(records);
     const navigate = useNavigate()
 
@@ -36,7 +35,7 @@ const UserDetails = () => {
 
 
     const UserList = async () => {
-        const response = await axios.get('/api/getuserList');
+        const response = await axios.get('/api/getagentList');
         let filterData = await response.data.data
         setAchievementList(filterData)
     }
@@ -53,7 +52,7 @@ const UserDetails = () => {
 
     //pagination
     const previousPage = () => {
-        if (currentPage != 1) {
+        if (currentPage !== 1) {
             setCurrentPage(currentPage - 1)
         }
     }
@@ -63,7 +62,7 @@ const UserDetails = () => {
     }
 
     const nextPage = () => {
-        if (currentPage != nPage) {
+        if (currentPage !== nPage) {
             setCurrentPage(currentPage + 1)
         }
     }
@@ -77,7 +76,7 @@ const UserDetails = () => {
     return (
         <>
 
-            <div className="container">
+            <div className="main_div" style={{padding: "50px"}}>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -86,7 +85,7 @@ const UserDetails = () => {
                             <th scope="col">Last Name</th>
                             <th scope="col">Mobile</th>
                             <th scope="col">Email</th>
-                            <th scope="col">City</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -101,8 +100,7 @@ const UserDetails = () => {
                                         <td>{item.last_name}</td>
                                         <td>{item.mobile}</td>
                                         <td>{item.email}</td>
-                                        <td>{item.city}</td>
-
+                                        <td>{item.active}</td>
                                         <td >
                                             <Link className="btn btn-outline-primary mr-2" style={{ margin: "5px" }} onClick={() => updateAchievementDetails(item._id)} to={`/user_details_update/${item._id}`}><i class="fas fa-user-edit"></i>
                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
@@ -121,6 +119,7 @@ const UserDetails = () => {
                                 )
                             }):
                                 records?.map((item, index) => {
+                                    {console.log("item", item)}
                                     return (
                                         <tr key={index}>
                                             <th scope="row">{index + 1}</th>
@@ -128,7 +127,7 @@ const UserDetails = () => {
                                             <td>{item.last_name}</td>
                                             <td>{item.mobile}</td>
                                             <td>{item.email}</td>
-                                            <td>{item.city}</td>
+                                            <td>{item.active}</td>
 
                                             <td >
                                                 <Link className="btn btn-outline-primary mr-2" style={{ margin: "5px" }} onClick={() => updateAchievementDetails(item._id)} to={`/user_details_update/${item._id}`}><i class="fas fa-user-edit"></i>
@@ -155,7 +154,7 @@ const UserDetails = () => {
                 <nav>
                     <ul className="pagination">
                         <li className="page-item">
-                            <a href="#" className="page-link" onClick={previousPage}> Prev </a>
+                            <a href="#" className="page-link" onClick={previousPage} > Prev </a>
                         </li>
                         {
                             numbers.map((n, i) => (

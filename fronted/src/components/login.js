@@ -12,7 +12,6 @@ const Login = () => {
     const handleInput = (e) => {
         name = e.target.name
         value = e.target.value
-        console.log("candidate", userdata)
         setUserdata({ ...userdata, [name]: value })  //[] dynamic data for
     }
 

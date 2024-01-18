@@ -3,8 +3,8 @@ import {useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
-const AddUser = () => {
-    const [userdata, setUserdata] = useState();
+const AgentPage = () => {
+    const [agentdata, setAgentdata] = useState();
     const navigate = useNavigate()
     let name, value;
 
@@ -12,7 +12,7 @@ const AddUser = () => {
     const handleInput = (e) => {
         name = e.target.name
         value = e.target.value
-        setUserdata({ ...userdata, [name]: value })  //[] dynamic data for
+        setAgentdata({ ...agentdata, [name]: value })  //[] dynamic data for
     }
 
     const handleSubmit = async (e) => {
@@ -23,11 +23,10 @@ const AddUser = () => {
             email,
             mobile,
             password,
-            city,
-            country
-        } = userdata;
+            description
+        } = agentdata;
 
-        let baseurl = "http://localhost:5000/api/createuserdetails"
+        let baseurl = "http://localhost:5000/api/create_agentdetails"
         const regInf = {
             method: "Post",
             headers: {
@@ -39,8 +38,7 @@ const AddUser = () => {
                 email,
                 mobile,
                 password,
-                city,
-                country
+                description
             })
         }
         const res = await fetch(baseurl, regInf);
@@ -64,12 +62,12 @@ const AddUser = () => {
             <img src="https://5d.solutions/wp-content/themes/5d/images/logo.svg" width="100" height="70"></img>
             </div>
             </div>
-            <h1>Signup</h1>
+            <h1>Support Agent Creation Screen</h1>
            {/* <Navbar/> */}
             
             <div className="container" style={{ marginTop: "10px" }}>
                 <div className="mb-4 row">
-                    <div className="col-5 sm-4">
+                    <div className="col-6 sm-4">
                     <label for="formGroupExampleInput" class="form-label">First Name</label>
                         <input type="text"
                             className="form-control"
@@ -78,7 +76,7 @@ const AddUser = () => {
                             name='first_name'
                             placeholder="first_name" />
                     </div>
-                    <div className="col-5 sm-4">
+                    <div className="col-6 sm-4">
                     <label for="formGroupExampleInput" class="form-label">Last Name</label>
                         <input type="text"
                             className="form-control"
@@ -90,9 +88,8 @@ const AddUser = () => {
                 </div>
 
                 <div className="mb-4 row">
-                    <div className="col-5 sm-4">
+                    <div className="col-6 sm-4">
                     <label for="formGroupExampleInput" class="form-label">Email</label>
-
                         <input
                             type="text"
                             className="form-control"
@@ -102,7 +99,7 @@ const AddUser = () => {
                             placeholder="Enter email..."
                         />
                     </div>
-                    <div className="col-5 sm-4">
+                    <div className="col-6 sm-4">
                     <label for="formGroupExampleInput" class="form-label">Mobile Number</label>
 
                         <input type="number"
@@ -114,20 +111,8 @@ const AddUser = () => {
                     </div>
                 </div>
                 <div className="mb-4 row">
-                    <div className="col-5 sm-4">
-                    <label for="formGroupExampleInput" class="form-label">City</label>
-
-                        <select className="form-control" id="inputGroupSelect01" onChange={handleInput} name="city" aria-label="select example">
-                            <option selected>City</option>
-                            <option value="Delhi">Delhi</option>
-                            <option value="Mumbai">Mumbai</option>
-                            <option value="Pune">Pune</option>
-                            <option value="Banglore">Banglore</option>
-                        </select>
-                    </div>
-                    <div className="col-5 sm-4">
+                    <div className="col-6 sm-4">
                     <label for="formGroupExampleInput" class="form-label">Password</label>
-
                         <input type="password"
                             className="form-control"
                             name="password"
@@ -135,10 +120,14 @@ const AddUser = () => {
                             id="password"
                             placeholder="password" />
                     </div>
-
                 </div>
+                <div className="col-12 sm-4">
+                    <label for="formGroupExampleInput" class="form-label">Description</label>
+                    <textarea type="text" className="form-control" id="description" onChange={handleInput} name="description" aria-label="select example"/>
+                </div>
+               
 
-                <div className="mb-2 row">
+                <div className="mb-2 row" style={{paddingTop: "25px"}}>
                     <div className="col-mdm-2">
                         <button className="btn btn-info" onClick={handleSubmit} style={{ margin: "auto", width: "200px", borderRadius: "25px", height: "50px"}}>Submit</button>
                     </div>
@@ -149,6 +138,6 @@ const AddUser = () => {
     )
 }
 
-export default AddUser;
+export default AgentPage;
 
 

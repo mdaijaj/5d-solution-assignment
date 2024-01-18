@@ -1,7 +1,9 @@
 const mongoose=require('mongoose');
 // require('dotenv').config;
 // dotenv.config({path: './db.js'})
-let url=process.env.DB || "mongodb://localhost:27017/5d_solution";
+// let url=process.env.DB || "mongodb://localhost:27017/5d_solution";
+let url=process.env.DB || "mongodb://localhost:27017/ticket_system";
+
 
 mongoose.connect(url, {
     useUnifiedTopology: true,

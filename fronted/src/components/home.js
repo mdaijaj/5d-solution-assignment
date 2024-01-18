@@ -4,7 +4,7 @@ const HomePage = () => {
 
     return (
         <>  
-            <center><h1> Welcome To Home Page of 5D Solution Organization </h1></center><br />
+            <center><h1> Welcome To Support Ticket Entry System </h1></center><br />
         </>
     );
 };

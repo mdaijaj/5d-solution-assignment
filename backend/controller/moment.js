@@ -1,46 +1,35 @@
-const Momentmodel = require('../models/add_moment')
-const baseUrl = "http://localhost:5000/";
+const SupportTicketModel = require('../models/support_ticket_model')
 
-exports.createMoments = async (req, res) => {
+exports.createSupportTicket = async (req, res) => {
   const {
-    title,
-    comments,
-    tags,
+    topic, assignedTo, severity_level,ticket_type,status,description
   } = req.body;
-  if (req.file) {
-    var document = req.file.path
-} else {
-    var document = ""
-}
-
-console.log("req.file", req.files)
-
   try {
-    const UserdetailData = await Momentmodel.create({
-      title,
-      file: baseUrl+document,
-      comments,
-      tags,
+    const ticketData = await SupportTicketModel.create({
+      topic, assignedTo, severity_level,ticket_type,status,description
     })
+    console.log("ticketdata", ticketData)
     return res.status(200).send({
-      message: "create successfully!", data: UserdetailData
+      message: "create successfully!", data: ticketData
     })
   }
   catch (err) {
     res.status(500).send({
-      message: err.message || "Some error occurred while creating the UserdetailData."
+      message: err.message || "Some error occurred while creating the ticketData."
     });
   }
 }
 
 
 
-exports.getmomentsList = async (req, res) => {
+exports.SupportTicketList = async (req, res) => {
   try {
-    const UserdetailData = await Momentmodel.find({})
-    console.log("UserdetailData", UserdetailData)
-    if (UserdetailData) {
-      res.status(200).send({ message: "get all UserdetailData list", data: UserdetailData })
+    const ticketData = await SupportTicketModel.find({})
+    console.log("ticketData", ticketData)
+    if (ticketData.length>0) {
+      res.status(200).send({ message: "get all ticketData list", data: ticketData })
+    }else{
+      res.status(204).send({ message: "data not found", data: ticketData })
     }
   } catch (err) {
     console.log(err.message)
@@ -49,15 +38,15 @@ exports.getmomentsList = async (req, res) => {
 }
 
 
-exports.getMomentDetails = async (req, res) => {
+exports.SupportTicketDetails = async (req, res) => {
   try {
     console.log(req.params.id)
-    const restData = await Momentmodel.findById({
+    const restData = await SupportTicketModel.findById({
       _id: req.params.id,
     })
     console.log("restData", restData)
     if (!restData || restData == undefined) {
-      return res.send("not found restaurant")
+      return res.send("not found ticket")
     }
     return res.status(200).send({
       message: "user resitered save data",
@@ -70,12 +59,12 @@ exports.getMomentDetails = async (req, res) => {
 }
 
 
-exports.editMomentDetails = async (req, res) => {
+exports.editTicketDetails = async (req, res) => {
   try {
 
-    const userdata = await Momentmodel.find({ _id: req.params.id });
-    if (userdata) {
-      const updateData = await Momentmodel.findByIdAndUpdate({ _id: req.params.id }, {
+    const ticketdata = await SupportTicketModel.find({ _id: req.params.id });
+    if (ticketdata) {
+      const updateData = await SupportTicketModel.findByIdAndUpdate({ _id: req.params.id }, {
         $set: req.body
       })
       console.log("updateData", updateData)
@@ -88,12 +77,12 @@ exports.editMomentDetails = async (req, res) => {
 }
 
 
-exports.deleteMoments = async (req, res) => {
+exports.deleteTicket = async (req, res) => {
   try {
 
-    const userdata = await Momentmodel.find({ _id: req.params.id });
-    if (userdata) {
-      const updateData = await Momentmodel.findByIdAndRemove({ _id: req.params.id }, {
+    const ticketdata = await SupportTicketModel.find({ _id: req.params.id });
+    if (ticketdata) {
+      const updateData = await SupportTicketModel.findByIdAndRemove({ _id: req.params.id }, {
         $set: req.body
       })
       console.log("updateData", updateData)
@@ -118,7 +107,7 @@ exports.paginationData = async (req, res) => {
   }
 
   const limit = parseInt(size);
-  const user = await Momentmodel.find().limit(limit)
+  const user = await SupportTicketModel.find().limit(limit)
   res.send({
     page,
     size,

@@ -1,25 +1,24 @@
 const express= require('express')
 const router=express()
-const userController= require('../controller/index')
-const momentsController= require('../controller/moment')
-const {upload}= require('../middleware/upload')
+const agentController= require('../controller/index')
+const TicketController= require('../controller/moment')
 
 
-//routes for Dish crude
-router.post('/api/createuserdetails', userController.createUserDetails)
-router.post('/api/signin', userController.signin)
-router.get('/api/getuserList', userController.getUserList)
-router.get('/api/getUserDetails/:id', userController.getUserDetails)
-router.put('/api/editUserDetails/:id', userController.editUserDetails)
-router.get('/api/deleteUserDetails/:id', userController.deleteUser)
+//routes for Support Agent details
+router.post('/api/create_agentdetails', agentController.createAgent)
+router.post('/api/signin', agentController.signin)
+router.get('/api/getagentList', agentController.getAgentList)
+router.get('/api/getagentDetails/:id', agentController.AgentDetails)
+router.put('/api/UpdateAgentDetails/:id', agentController.UpdateAgentDetails)
+router.get('/api/deleteAgentDetails/:id', agentController.deleteAgentTicket)
 
 
-//routes for Moments crude
-router.post('/api/createMoments', upload.single('document'), momentsController.createMoments)
-router.get('/api/getmomentsList', momentsController.getmomentsList)
-router.get('/api/getMomentDetails/:id', momentsController.getMomentDetails)
-router.put('/api/editMomentDetails/:id', momentsController.editMomentDetails)
-router.get('/api/deleteMoments/:id', momentsController.deleteMoments)
+//routes for Support Ticket details
+router.post('/api/createSupportTicket', TicketController.createSupportTicket)
+router.get('/api/supportTicketList', TicketController.SupportTicketList)
+router.get('/api/supportTicketDetails/:id', TicketController.SupportTicketDetails)
+router.put('/api/editTicketDetails/:id', TicketController.editTicketDetails)
+router.get('/api/deleteAgentTicket/:id', TicketController.deleteTicket)
 
 
 module.exports = router;

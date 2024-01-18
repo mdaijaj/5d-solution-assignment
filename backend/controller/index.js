@@ -1,41 +1,39 @@
-const UserDetail = require('../models/add_user')
+const AgentModel = require('../models/agent_model')
 const Bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 
-exports.createUserDetails = async (req, res) => {
+exports.createAgent = async (req, res) => {
   const {
     first_name,
     last_name,
     email,
     mobile,
     password,
-    city,
-    country
+    description
   } = req.body;
 
   try {
-    const UserdetailData = await UserDetail.create({
+    const AgentdetailData = await AgentModel.create({
     first_name,
     last_name,
     email,
     mobile,
     password,
-    city,
-    country
+    description
     })
     return res.status(200).send({
-      message: "create successfully!", data: UserdetailData
+      message: "create successfully!", data: AgentdetailData
     })
   }
   catch (err) {
     res.status(500).send({
-      message: err.message || "Some error occurred while creating the UserdetailData."
+      message: err.message || "Some error occurred while creating the AgentdetailData."
     });
   }
 }
 
 
-//signin user
+//signin agent
 exports.signin= async (req,res)=>{
   try{
       console.log(req.body)
@@ -43,15 +41,15 @@ exports.signin= async (req,res)=>{
       if(!password || !email){
           res.status(400).send("please fill the data...");
       }
-      let user_detail =await UserDetail.findOne({email: email})
-      console.log("user_detail", user_detail)
-      if(user_detail){
-          const isMatch=await Bcrypt.compare(password, user_detail.password);
+      let agent_detail =await AgentModel.findOne({email: email})
+      console.log("agent_detail", agent_detail)
+      if(agent_detail){
+          const isMatch=await Bcrypt.compare(password, agent_detail.password);
           if(!isMatch){
               return res.status(400).send({error: "Invalid Credentials", data: null})
           }
                // console.log("encrypted password match success!")
-          let token =await jwt.sign({ user_detail: user_detail }, process.env.SECRET || "aijajkhan", {expiresIn: 86400 }); // expires in 24 hours
+          let token =await jwt.sign({ agent_detail: agent_detail }, process.env.SECRET || "aijajkhan", {expiresIn: 86400 }); // expires in 24 hours
           // let token= await userInfo.generateAuthToken();
           res.cookie("jwtToken", token, {
               expires: new Date(Date.now()+ 300000000),
@@ -59,7 +57,7 @@ exports.signin= async (req,res)=>{
           });
           res.send({
               token: token,
-              userInfo: user_detail,
+              userInfo: agent_detail,
               status: 200,
               message: "login Success"
           })
@@ -75,12 +73,14 @@ exports.signin= async (req,res)=>{
 
 
 
-exports.getUserList = async (req, res) => {
+exports.getAgentList = async (req, res) => {
   try {
-    const UserdetailData = await UserDetail.find({})
-    console.log("UserdetailData", UserdetailData)
-    if (UserdetailData) {
-      res.status(200).send({ message: "get all UserdetailData list", data: UserdetailData })
+    const AgentdetailData = await AgentModel.find()
+    console.log("AgentdetailData", AgentdetailData)
+    if (AgentdetailData.length>0) {
+      res.status(200).send({ message: "get all AgentdetailData list", data: AgentdetailData })
+    }else{
+      res.status(204).send({ message: "data not found", data: AgentdetailData })
     }
   } catch (err) {
     console.log(err.message)
@@ -89,10 +89,10 @@ exports.getUserList = async (req, res) => {
 }
 
 
-exports.getUserDetails = async (req, res) => {
+exports.AgentDetails = async (req, res) => {
   try {
     console.log(req.params.id)
-    const restData = await UserDetail.findById({
+    const restData = await AgentModel.findById({
       _id: req.params.id,
     })
     console.log("restData", restData)
@@ -110,12 +110,12 @@ exports.getUserDetails = async (req, res) => {
 }
 
 
-exports.editUserDetails = async (req, res) => {
+exports.UpdateAgentDetails = async (req, res) => {
   try {
 
-    const userdata = await UserDetail.find({ _id: req.params.id });
+    const userdata = await AgentModel.find({ _id: req.params.id });
     if (userdata) {
-      const updateData = await UserDetail.findByIdAndUpdate({ _id: req.params.id }, {
+      const updateData = await AgentModel.findByIdAndUpdate({ _id: req.params.id }, {
         $set: req.body
       })
       console.log("updateData", updateData)
@@ -128,12 +128,12 @@ exports.editUserDetails = async (req, res) => {
 }
 
 
-exports.deleteUser = async (req, res) => {
+exports.deleteAgentTicket = async (req, res) => {
   try {
 
-    const userdata = await UserDetail.find({ _id: req.params.id });
-    if (userdata) {
-      const updateData = await UserDetail.findByIdAndRemove({ _id: req.params.id }, {
+    const agentdata = await AgentModel.find({ _id: req.params.id });
+    if (agentdata) {
+      const updateData = await AgentModel.findByIdAndRemove({ _id: req.params.id }, {
         $set: req.body
       })
       console.log("updateData", updateData)
@@ -158,7 +158,7 @@ exports.paginationData = async (req, res) => {
   }
 
   const limit = parseInt(size);
-  const user = await UserDetail.find().limit(limit)
+  const user = await AgentModel.find().limit(limit)
   res.send({
     page,
     size,

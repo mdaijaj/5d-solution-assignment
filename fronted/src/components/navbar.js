@@ -29,25 +29,28 @@ const Navbar = (props) => {
                                 <NavLink className="nav-link active" aria-current="page" to="/">Home</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link active" aria-current="page" to="/user_list">User List</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to="/ticket_create">Support Ticket Create</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link active" aria-current="page" to="/moments_list">Moments List </NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to="/momensits_list">Support Ticket List</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link active" aria-current="page" to="/moments">Add Moments</NavLink>
+                                <NavLink className="nav-link active" aria-current="page" to="/signup">Agent Create </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink className="nav-link active" aria-current="page" to="/user_list">Agent List</NavLink>
                             </li>
                         </ul>
                         {!localStorage.getItem('user') ?
 
                             <form className='d-flex'>
-                                <Link className='btn btn-dark mx-2' to="/signup" role="button">Signup</Link>
-                                <Link className='btn btn-dark mx-2' to="/signin" role="button">Login</Link>
+                                <Link className='btn btn-dark mx-2' to="/signup" role="button">Agent Register</Link>
+                                <Link className='btn btn-dark mx-2' to="/signin" role="button">Agent Login</Link>
                             </form>
                             :
                             <>
                                 <button onClick={handleLogout} className='btn btn-dark'>Logout</button>
-                                <h4 style={{ padding: "40px" }}>{JSON.parse(localStorage.getItem('user')).first_name}</h4>
+                                {/* <h4 style={{ padding: "40px" }}>{JSON.parse(localStorage.getItem('user')).first_name}</h4> */}
                                 <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv4qV8A3FNxEQwtXcSJ4laIf9JsNt0A1dcMMqBCe4J8pbIB0Tn_Kzo5oeUxfD_aQjJHVY&usqp=CAU' style={{width: "80px", height: "80px", borderRadius: "50%"}}></img>
                             </>
                         }
