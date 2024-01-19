@@ -7,7 +7,16 @@ import axios from 'axios';
 const MomentsList = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [momentdata, setMomentdata]=useState([])
-    const [filter, setFilter] = useState('');  //search query
+
+
+    //pagination functionality
+    const [currentPage, setCurrentPage] = useState(1);
+    const recordPerPage = 3;
+    const lastIndex = currentPage * recordPerPage;
+    const firstIndex = lastIndex - recordPerPage;
+    const records = momentdata.slice(firstIndex, lastIndex);
+    const nPage = Math.ceil(momentdata.length / recordPerPage);
+    const numbers = [...Array(nPage + 1).keys()].slice(1)
 
 
     const allUserList = async () => {
@@ -33,15 +42,32 @@ const MomentsList = (props) => {
         return momentdata;
       }
       
-    //   console.log("searchQuery", searchQuery)
-
     const setSearchQuery=(data)=>{
         const filteredTickets = momentdata.filter(ticket =>
             ticket.topic.toLowerCase().includes(data.toLowerCase())  ||
-            ticket.ticket_type.toLowerCase().includes(data.toLowerCase())
+            ticket.ticket_type.toLowerCase().includes(data.toLowerCase()) ||
+            ticket.assignedTo.toLowerCase().includes(data.toLowerCase())
         )
         setMomentdata(filteredTickets)
     }
+
+
+        //pagination
+        const previousPage = () => {
+            if (currentPage !== 1) {
+                setCurrentPage(currentPage - 1)
+            }
+        }
+    
+        const changeCurPage = (id) => {
+            setCurrentPage(id)
+        }
+    
+        const nextPage = () => {
+            if (currentPage !== nPage) {
+                setCurrentPage(currentPage + 1)
+            }
+        }
 
 
 
@@ -58,7 +84,7 @@ const MomentsList = (props) => {
 
     return (
         <>
-            <div class="main_div" style={{width: "100%"}}>
+            <div class="main_div" style={{width: "80%", margin: "auto", padding: "25px"}}>
                 <div>
                     {isLoading ? <Loader /> : <h2>Support Agent Ticket List</h2>}
                 </div>
@@ -93,7 +119,7 @@ const MomentsList = (props) => {
                 </form>
                 </div>
                 <div class="row">
-                    {momentdata?.map((menu, index) => (
+                    {records?.map((menu, index) => (
                         <div class="col-4">
                             <div class="card">
                                 <img class="card-img-top img-fluid" src={`https://images.unsplash.com/photo-1537203271513-17c9f9dd3274?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY5MzA2Njc0Ng&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080` } 
@@ -113,6 +139,26 @@ const MomentsList = (props) => {
                         </div>
                     ))}
                 </div>
+
+                <nav>
+                    <ul className="pagination">
+                        <li className="page-item">
+                            <a href="#" className="page-link" onClick={previousPage} > Prev </a>
+                        </li>
+                        {
+                            numbers.map((n, i) => (
+                                <li className={
+                                    `page-item${currentPage == n ? 'active' : ""}`} key={i}>
+                                    <a href="#" className="page-item" onClick={() => changeCurPage(n)}> {n} </a>
+                                </li>
+                            ))
+                        }
+                        <li className="page-item">
+                            <a href="#" className="page-link" onClick={nextPage}> Next </a>
+                        </li>
+
+                    </ul>
+                </nav>
             </div>
         </>
     )

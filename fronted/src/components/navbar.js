@@ -5,10 +5,7 @@ import "../App.css"
 
 const Navbar = (props) => {
     const navigate = useNavigate()
-    // const cardata = localStorage.getItem("itemscart")
-    // console.log("cardata", cardata)
-
-
+    
     const handleLogout = () => {
         localStorage.removeItem('user')
         navigate('/login')
@@ -20,7 +17,7 @@ const Navbar = (props) => {
             <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
                 <div className="container-fluid">
                     <NavLink className="navbar-brand" to="#">
-                        <img src="https://5d.solutions/wp-content/themes/5d/images/logo.svg" width="100" height="70" className="d-inline-block align-top" alt="image path not found" />
+                        <img src="https://assets-global.website-files.com/60e7f6b5ecd3ae8e0c125cd7/6131e01adfd606498def3180_Shvasa-logo-wave.png" width="100" height="70" className="d-inline-block align-top" alt="image path not found" />
                     </NavLink>
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
